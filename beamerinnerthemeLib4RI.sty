@@ -1,0 +1,180 @@
+%
+% Copyright (c) 2017 d-r-p (Lib4RI) <d-r-p@users.noreply.github.com>
+%
+% Permission to use, copy, modify, and distribute this software for any
+% purpose with or without fee is hereby granted, provided that the above
+% copyright notice and this permission notice appear in all copies.
+%
+% THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+% WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+% MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+% ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+% WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+% ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+%
+
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\makeatletter
+
+\def\lfri@pgf@drawarrow{%
+  \pgfpathmoveto{\pgfpoint{-4\u}{2\u}}%
+  \pgfpathlineto{\pgfpoint{-4\u}{8\u}}%
+  \pgfpathlineto{\pgfpoint{-6\u}{6\u}}%
+  \pgfpathlineto{\pgfpoint{-8\u}{8\u}}%
+  \pgfpathlineto{\pgfpoint{-8\u}{2\u}}%
+  \pgfpathlineto{\pgfpoint{-4\u}{-2\u}}%
+  \pgfpathlineto{\pgfpoint{0\u}{-2\u}}%
+  \pgfpathlineto{\pgfpoint{0\u}{-4\u}}%
+  \pgfpathlineto{\pgfpoint{4\u}{0\u}}%
+  \pgfpathlineto{\pgfpoint{0\u}{4\u}}%
+  \pgfpathlineto{\pgfpoint{0\u}{2\u}}%
+  \pgfpathlineto{\pgfpoint{-8\u}{2\u}}%
+  \pgfusepath{stroke}%
+}
+
+\def\lfri@mkarrow#1#2{%
+  \begingroup%
+    \lfri@theme@dimena=#1%
+    \let\u=\lfri@theme@dimena%
+    \def\lfri@tmparg{#2}%
+    \begin{pgfpicture}%
+      \lfri@pgf@drawarrow%
+      \ifx\lfri@tmparg\@empty%
+      \else%
+        \pgftext{#2}%
+      \fi%
+    \end{pgfpicture}%
+  \endgroup%
+}
+
+\newcounter{lfri@tmpctr}
+
+\newdimen\lfri@theme@dimena
+\newdimen\lfriarrowsize
+\lfriarrowsize=.75pt
+
+\defbeamertemplate{section in toc}{lfriarrow}{%
+  \leavevmode\leftskip=2.75ex%
+  \raise0ex\llap{%
+    \begingroup%
+      \setcounter{lfri@tmpctr}{\inserttocsectionnumber}%
+      \color{structure.fg}%
+      \lfri@mkarrow{1.4142136\lfriarrowsize}{%
+        \usebeamerfont*{section number projected}%
+        \usebeamercolor{section number projected}%
+        \color{fg!10!bg}%
+        \usebeamerfont{supermicrodynamic}%
+        \hskip.4em\Alph{lfri@tmpctr}%
+      }%
+    \endgroup%
+    \kern1.25ex}%
+  \inserttocsection\par%
+}%
+[action]%
+{\setbeamerfont{section number projected}{size=\scriptsize}}
+
+\defbeamertemplate{subsection in toc}{lfriarrow}{%
+  \leavevmode\leftskip=6ex%
+  \raise0ex\llap{%
+    \begingroup%
+      \setcounter{lfri@tmpctr}{\inserttocsubsectionnumber}%
+      \color{structure.fg}%
+      \lfri@mkarrow{\lfriarrowsize}{%
+        \usebeamerfont*{section number projected}%
+        \usebeamercolor{section number projected}%
+        \color{fg!10!bg}%
+        \usebeamerfont{supermicrodynamic}%
+        \usebeamerfont{supermicrodynamic}%
+        \hskip.4em\arabic{lfri@tmpctr}%
+      }%
+    \endgroup%
+    \kern1.25ex}%
+  \inserttocsubsection\par%
+}
+
+\defbeamertemplate{subsubsection in toc}{lfriarrow}{%
+  \leavevmode\leftskip=9.5ex%
+  \raise0ex\llap{%
+    \begingroup%
+      \setcounter{lfri@tmpctr}{\inserttocsubsubsectionnumber}%
+      \color{structure.fg}%
+      \lfri@mkarrow{0.70710678\lfriarrowsize}{%
+        \usebeamerfont*{section number projected}%
+        \usebeamercolor{section number projected}%
+        \color{fg!10!bg}%
+        \usebeamerfont{supermicrodynamic}%
+        \usebeamerfont{supermicrodynamic}%
+        \usebeamerfont{supermicrodynamic}%
+        \hskip.4em\roman{lfri@tmpctr}%
+      }%
+    \endgroup%
+    \kern1ex}%
+  \inserttocsubsubsection\par%
+}
+
+\makeatother
+
+\setbeamertemplate{sections/subsections in toc}[lfriarrow]
+\setbeamertemplate{subsubsections in toc}[lfriarrow]
+\defbeamertemplate*{title page}{Lib4RI}[1][]{%
+  \vbox{}
+  \begingroup
+    {\hfill\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+    \vfill
+    \centering
+    \begin{beamercolorbox}[sep=0.8pt,left,#1]{author}
+      \usebeamerfont{author}\insertauthor%
+      \ifx\insertinstitute\@empty%
+      \else%
+      \hskip3ex{\usebeamerfont{institute}\insertinstitute}%
+      \fi
+      \par
+    \end{beamercolorbox}
+    \vskip-.5em%
+    \par
+    \textcolor{structure.fg}{\rule[0pt]{\textwidth}{2.25pt}}
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+      \usebeamerfont{subtitle}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{title}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%
+    \end{beamercolorbox}\par%
+    \textcolor{structure.fg}{\rule[\baselineskip]{\textwidth}{1pt}}
+  \endgroup
+  \vfill\vfill
+  \begin{beamercolorbox}[sep=8pt,center,#1]{footline}
+    \usebeamerfont{micro}%
+    \begingroup%
+      \let\underline=\relax%
+      \href{https://creativecommons.org/licenses/by/4.0/}{\raisebox{-.5pt}{\includegraphics[height=2\baselineskip]{by}}}%
+    \endgroup%
+    ~\hbox{\vbox to 2\baselineskip{\vbox{}\vfill%
+      \hbox{%
+        \usebeamerfont{micro}%
+        Unless otherwise noted, this work is licensed under a \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons Attribution 4.0 International License},%
+      }%
+      \hbox{%
+        \usebeamerfont{micro}%
+        which means that it can be freely copied, redistributed and adapted as long as appropriate attribution is given.%
+      }%
+    \vfill}}%
+  \end{beamercolorbox}\par
+}
+\setbeamertemplate{title page}[Lib4RI]
+
+\makeatletter
+
+\setbeamertemplate{itemize item}{\lfri@mkarrow{\lfriarrowsize}{}}
+\setbeamertemplate{itemize subitem}{\lfri@mkarrow{.70710678\lfriarrowsize}{}}
+\setbeamertemplate{itemize subsubitem}{\lfri@mkarrow{.5\lfriarrowsize}{}}
+
+\makeatother
+
+\mode<all>
+
