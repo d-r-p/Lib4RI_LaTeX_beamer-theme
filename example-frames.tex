@@ -1,0 +1,226 @@
+%
+% CONTENT:
+%
+% Copyright (c) 2017, 2018 d-r-p (Lib4RI) <d-r-p@users.noreply.github.com>
+%
+% Unless otherwise noted, this work is licensed under a
+% Creative Commons Attribution 4.0 International License
+% [https://creativecommons.org/licenses/by/4.0/], which
+% means that it can be freely copied, redistributed and
+% adapted as long as appropriate attribution is given.
+%
+
+%
+% CODE:
+%
+% Copyright (c) 2017, 2018 d-r-p (Lib4RI) <d-r-p@users.noreply.github.com>
+%
+% Permission to use, copy, modify, and distribute this software for any
+% purpose with or without fee is hereby granted, provided that the above
+% copyright notice and this permission notice appear in all copies.
+%
+% THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+% WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+% MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+% ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+% WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+% ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+% OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+%
+
+
+\input{example-common}
+
+\usepackage[nopar]{lipsum}
+\setlipsumdefault{1-10}% maximum is 1-150
+\gdef\lipsumexp{\relax}
+
+% the following is necessary despite correcting @preamble, in case hyperref is not loaded
+\makeatletter%
+  \ifx\url\@undefined\relax\let\url\@firstofone\fi%
+  \ifx\href\@undefined\relax\let\href\@secondoftwo\fi%
+\makeatother%
+
+% DOCINFO
+
+\author{d-r-p (Lib4RI) \texttt{<d-r-p@users.noreply.github.com>}}
+
+\setcounter{lfrimodule}{0}
+\setcounter{lfrilecture}{0}
+\setcounter{lfrilecturepart}{1}
+
+\title{Module~\thelfrimodule: {\rm \LaTeX}}
+
+\subtitle{Lecture~\thelfrilecture: An Example Lecture}
+
+\date{Lib4RI Training Series $\cdot$ {\inserttitle} $\cdot$ Session Year}
+
+% CUSTOM CODE
+
+\makeatletter%
+  \let\nohref=\@secondoftwo%
+  \let\nourl=\@gobble%
+\makeatother%
+
+\makeatletter%
+  \def\lipsum@getnextsentence#1. #2\@end{%
+    \xdef\lipsumexp{#2}%
+    \def\sentence{#1.}%
+  }%
+  \def\lipsum@incrementsentence{%
+    \if\lipsumexp\relax%
+      \UnpackLipsum%
+    \fi%
+    \expandafter\lipsum@getnextsentence\lipsumexp\@end%
+  }%
+  \newcommand{\lipsumgetnextsentence}{%
+    \begingroup%
+      \lipsum@incrementsentence%
+      \sentence%
+    \endgroup%
+  }%
+  \newcommand{\lipsumgetsentence}[1][1]{%
+    \begingroup%
+      \xdef\lipsumexp{\relax}%
+      \count123=#1\relax%
+      \loop%
+        \lipsum@incrementsentence%
+      \ifnum\count123>1\relax%
+        \advance\count123 by -1\relax%
+      \repeat%
+      \sentence%
+    \endgroup%
+  }%
+\makeatother%
+
+
+
+% THE SLIDES
+
+\begin{document}
+
+  \begin{frame}[plain]
+    \titlepage
+  \end{frame}
+
+  \begin{frame}{~}{Contents}
+    \tableofcontents[pausesections]
+  \end{frame}
+
+  \section{Introduction to lorem}
+
+  \subsection{Lorem one to five}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[1]}}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[2]}}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[3]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[4]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[5]}
+    \end{itemize}
+  \end{frame}
+
+  \subsection{Lorem six to ten}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[6]}}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[7]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[8]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[9]}
+    \end{itemize}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[10]}}
+  \end{frame}
+
+  \section{Lorem goes on}
+
+  \subsection{Hierarchical lorem}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[11]}}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[12]}
+      \begin{itemize}[<+->] \footnotesize
+        \item \alert<.| handout:0>{\lipsumgetsentence[13]}
+        \item \alert<.| handout:0>{\lipsumgetsentence[14]}
+      \end{itemize}
+      \item \alert<.| handout:0>{\lipsumgetsentence[15]}
+      \begin{itemize}[<+->] \footnotesize
+        \item \alert<.| handout:0>{\lipsumgetsentence[16]}
+        \item \alert<.| handout:0>{\lipsumgetsentence[17]}
+          \begin{itemize}[<+->] \footnotesize
+            \item \alert<.| handout:0>{\lipsumgetsentence[18]}
+            \item \alert<.| handout:0>{\lipsumgetsentence[19]}
+            \item \alert<.| handout:0>{\lipsumgetsentence[20]}
+          \end{itemize}
+        \item \alert<.| handout:0>{\lipsumgetsentence[21]}
+      \end{itemize}
+      \item \alert<.| handout:0>{\lipsumgetsentence[22]}
+      \begin{itemize}[<+->] \footnotesize
+        \item \alert<.| handout:0>{\lipsumgetsentence[23]}
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \subsection{More lorem (watch the frame titles)}
+
+  \subsubsection{First part}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[24]}}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[25]}}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[26]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[27]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[28]}
+    \end{itemize}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[29]}}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[30]}}
+  \end{frame}
+
+  \subsubsection{Second part}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[31]}}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[32]}}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[33]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[34]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[35]}
+    \end{itemize}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[36]}}
+    \uncover<+->{\alert<.| handout:0>{\lipsumgetsentence[37]}}
+  \end{frame}
+
+  \subsection{\texorpdfstring{\hyperref[ex:1]{Exercise~\protect\ref*{ex:1}}}{Exercise~\protect\ref*{ex:1}}}
+
+  \lfriexercise \label{ex:1}
+
+  \begin{frame}{\framesectiontitle}{\framesectionsubtitle}
+    \begin{itemize}[<+->] \footnotesize
+      \item \alert<.| handout:0>{\lipsumgetsentence[38]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[39]}
+      \item \alert<.| handout:0>{\lipsumgetsentence[40]}
+    \end{itemize}
+  \end{frame}
+
+ \begingroup
+   \catcode`@=11%
+   \gdef\adjustlastpage{%
+     \advance\c@framenumber by -1\relax%
+   }%
+   \catcode`@=12%
+ \endgroup
+
+ \only<handout>{\adjustlastpage}
+
+ \begin{frame}<handout:0>
+   \vfill
+   \begin{center}
+     \alt<1>{Thank you!\vphantom{{\Large Questions?}}}{\alert<2>{\Large Questions?}}\pause
+   \end{center}
+   \vfill
+ \end{frame}
+
+\end{document}
